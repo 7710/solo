@@ -1,14 +1,13 @@
 #!/usr/bin/python
 import requests
 import os
-import sys
 import time
 import urllib
 from lxml import etree
 from requests.packages import urllib3
-
 """ 批量下载4chan页面中的图片
 """
+
 
 def timeft(t, fs="%Y-%m-%d %H:%M:%S"):
     return time.strftime(fs, t)
@@ -33,7 +32,7 @@ def geturls():
 def writeimg(img, path):
     """ 保存图片
     """
-    conn = urllib.request.urlopen("http:"+img, timeout=30)
+    conn = urllib.request.urlopen("http:" + img, timeout=30)
     f = open(path, 'wb')
     f.write(conn.read())
     f.close()
@@ -74,10 +73,8 @@ def main():
         if not os.path.exists(path):
             os.makedirs(path)
         urllib3.disable_warnings(urllib3.exceptions.InsecureRequestWarning)
-        r = requests.get(url=url,
-                         allow_redirects=False,
-                         verify=False,
-                         timeout=30)
+        r = requests.get(
+            url=url, allow_redirects=False, verify=False, timeout=30)
         content = r.content.decode('ISO-8859-1')
         html = etree.HTML(content)
         links = html.xpath("//a[@class='fileThumb']")
@@ -87,4 +84,3 @@ def main():
 
 if __name__ == '__main__':
     main()
-
